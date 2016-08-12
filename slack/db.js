@@ -13,13 +13,6 @@ try {
 
 var db = new sqlite3.Database(filename);
 
-exports.getChannels = getChannels;
-function getChannels(conn, teamName) {
-    //return conn.select();
-    var data = ['Orange', 'Blue', 'Red'];
-    return data;
-}
-
 exports.getConnection = getConnection;
 function getConnection(name) {
     return new sqlite3.Database(name);
@@ -105,8 +98,34 @@ if (!dbexists) {
     });
 }
 
-db.each("SELECT * FROM USER", function(err, row) {
-    console.log(row.ID + " : " + row.USERNAME + " : " + row.NAME + " : " + row.PASSWORD);
-});
+// db.each("SELECT * FROM USER", function(err, row) {
+//     console.log(row.ID + " : " + row.USERNAME + " : " + row.NAME + " : " + row.EMAIL + " : " + row.PASSWORD);
+// });
 
 db.close();
+
+exports.getChannels = getChannels;
+function getChannels(conn, teamName) {
+    //return conn.select();
+    var data = ['Orange', 'Blue', 'Red'];
+    return data;
+}
+
+exports.createUser = createUser;
+function createUser(conn, id, username, name, email, password) {
+    //getUser(conn, 5);
+    var createUserSql = "INSERT INTO USER VALUES ("+ id + ", '" + username + "', '" + name + "', '" + email + "', '" + password + "');";
+    //console.log(createUserSql);
+    //console.log(conn.run(createUserSql));
+    conn.run(createUserSql);
+}
+
+exports.getUser = getUser;
+function getUser(conn, id) {
+    var getUserSql = "SELECT * FROM USER WHERE ID = " + id;
+    conn.each(getUserSql, function(err, row) {
+        console.log(row);
+        console.log(row.ID + " : " + row.USERNAME + " : " + row.NAME + " : " + row.EMAIL + " : " + row.PASSWORD);
+        return row;
+    });
+}

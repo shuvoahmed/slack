@@ -2,7 +2,10 @@ var asserts = require('assert');
 var db = require('./db.js');
 //require("must/register");
 var sqlite3 = require('sqlite3');
-var TransactionDatabase = require("sqlite3-transactions").TransactionDatabase;
+var sqlite3 = require("sqlite3"),
+//var TransactionDatabase = require("sqlite3-transactions").TransactionDatabase;
+    TransactionDatabase = require("sqlite3-transactions").TransactionDatabase;
+
 
 // create test.db if it doesn't exist
 
@@ -18,15 +21,46 @@ describe('Db module', () => {
     
     // configure conn
 
-    it('given team name, return all channel names of that team', () => {
+    it('given team name, return all channel names of that team', function(done) {
         conn.beginTransaction(function(err, conn) {
+            if(err) {
+                throw 'Could not use connection!';
+            }
             try {
+                //db.getUser(conn, 5);
                 var teamName = 'Yankees';
                 var expected = ['Orange', 'Blue', 'Red'];
-                var actual = db.getChannels(tconn, teamName);
-                assert(actual, expected);
+                var actual = db.getChannels(conn, teamName);
+                //assert(actual, expected);
+                console.log(expected);
+                console.log(actual);
+                asserts(actual, expected);
+                done();
             } finally {
-                conn.rollback();
+                conn.rollback;
+            }
+        });
+    });
+
+    it('given user info, create that user in database', function(done) {
+        conn.beginTransaction(function(err, conn) {
+            if(err) {
+                throw 'Could not use connection!';
+            }
+            try {
+                var id = 6;
+                var username = 'testusername';
+                var name = 'Test Name';
+                var email = 'TestEmail@slack.com';
+                var password = 'testpassword';
+                var expected = [6, 'testusername', 'Test Name', 'TestEmail@slack.com', 'testpassword'];
+                db.getUser(conn, 5);
+                //db.createUser(conn, id, username, name, email, password);
+                var actual = db.getUser(conn, 5);
+                asserts(actual, expected);
+                done();
+            } finally {
+                conn.rollback;
             }
         });
     });
