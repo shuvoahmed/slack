@@ -10,6 +10,7 @@ var sqlite3 = require("sqlite3"),
 // create test.db if it doesn't exist
 
 describe('Db module', () => {
+    //this.timeout(15000);
     var conn = new TransactionDatabase(
         new sqlite3.Database("test.db", 
             sqlite3.OPEN_READWRITE | sqlite3.OPEN_CREATE
@@ -42,7 +43,31 @@ describe('Db module', () => {
         });
     });
 
+    it('given team name, return all channel names of that team 2', function(done) {
+        conn.beginTransaction(function(err, conn) {
+            if(err) {
+                throw 'Could not use connection!';
+            }
+            try {
+                //db.getUser(conn, 5);
+                var teamName = 'Yankees';
+                var expected = ['Orange', 'Blue', 'Red'];
+                var actual = db.getChannels(conn, teamName);
+                //assert(actual, expected);
+                console.log(expected);
+                console.log(actual);
+                asserts(actual, expected);
+                done();
+            } finally {
+                conn.rollback;
+            }
+        });
+    });
+
+
     it('given user info, create that user in database', function(done) {
+        this.timeout(15000);
+        setTimeout(done, 15000);
         conn.beginTransaction(function(err, conn) {
             if(err) {
                 throw 'Could not use connection!';

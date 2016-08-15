@@ -107,7 +107,8 @@ db.close();
 exports.getChannels = getChannels;
 function getChannels(conn, teamName) {
     //return conn.select();
-    var data = ['Orange', 'Blue', 'Red'];
+    //var data = ['Orange', 'Blue', 'Red'];
+    var data = getUser(conn, 5);
     return data;
 }
 
