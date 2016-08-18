@@ -282,7 +282,7 @@ describe('Test SlackService', () => {
     });
 
     it('retrieve all the messages', function(done) {
-        var expected = [{"id":1,"message":"Hi Swarup!","userid":1,"channelid":1,"date":"2016-08-11 14:45:00"},{"id":2,"message":"Mocha testing....","userid":1,"channelid":2,"date":"2016-08-05 12:46:00"}];
+        var expected = [{"id":1,"message":"Hi Swarup!","username":"shuvo","channelid":1,"date":"2016-08-11 14:45:00"},{"id":2,"message":"Mocha testing....","username":"shuvo","channelid":2,"date":"2016-08-05 12:46:00"}];
         slackService.getMessages(conn).should.eventually.equal(JSON.stringify(expected)).notify(done);
     });
     

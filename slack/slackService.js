@@ -688,12 +688,14 @@ function getMessageById(db, id) {
 exports.getMessages = getMessages;
 function getMessages(db) {
     return new Promise((resolve, reject) => {
-        var query = "SELECT * FROM MESSAGE ORDER BY DATE DESC";
+        //var query = "SELECT * FROM MESSAGE ORDER BY DATE DESC";
+        var query = "SELECT ID, MESSAGE, (SELECT USERNAME FROM USER WHERE ID = USERID) as USERNAME, CHANNELID, DATE FROM MESSAGE ORDER BY DATE DESC";
         var messages = [];
         var message;
         db.each(query,
             function(err, row) {
-                message= { id: row.ID, message:  row.MESSAGE, userid: row.USERID, channelid: row.CHANNELID, date:  row.DATE };
+                //message= { id: row.ID, message:  row.MESSAGE, userid: row.USERID, channelid: row.CHANNELID, date:  row.DATE };
+                message= { id: row.ID, message:  row.MESSAGE, username: row.USERNAME, channelid: row.CHANNELID, date:  row.DATE };
                 messages.push(message);
             },
             function(err) {
