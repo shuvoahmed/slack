@@ -298,7 +298,24 @@ describe('Test SlackService', () => {
         slackService.getMessagesByChannelName(conn, channelName).should.eventually.equal(JSON.stringify(expected)).notify(done);
     });
     
+    it('given a username and password, validate and return the user', function(done) {
+        var username = 'shuvo';
+        var password = 'shuvopassword';
+        var expected = { id: 1, username: username, name: 'Shuvo Ahmed', email: 'shuvoahmed@hotmail.com', password: password };
+        slackService.validateUser(conn, username, password).should.eventually.equal(JSON.stringify(expected)).notify(done);
+    });
 
+    it('given an user id, retrieve all the messages for that user', function(done) {
+        var userId = 1;
+        var expected = [{"id":1,"message":"Hi Swarup!","userid":userId,"channelid":1,"date":"2016-08-11 14:45:00"},{"id":2,"message":"Mocha testing....","userid":userId,"channelid":2,"date":"2016-08-05 12:46:00"}];
+        slackService.getMessagesByUserId(conn, userId).should.eventually.equal(JSON.stringify(expected)).notify(done);
+    });
+
+    it('given an user name, retrieve all the messages for that user', function(done) {
+        var userName = 'shuvo';
+        var expected = [{"id":1,"message":"Hi Swarup!","userid":1,"channelid":1,"date":"2016-08-11 14:45:00"},{"id":2,"message":"Mocha testing....","userid":1,"channelid":2,"date":"2016-08-05 12:46:00"}];
+        slackService.getMessagesByUserName(conn, userName).should.eventually.equal(JSON.stringify(expected)).notify(done);
+    });
 
 });
 
