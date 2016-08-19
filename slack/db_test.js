@@ -271,13 +271,13 @@ describe('Test SlackService', () => {
         var channelId = 1;
         var date = '2016-08-18 14:45:00';
         //var expected = 3;
-        var expected = {"id":3,"message":"Test Message","userid":userId,"channelid":channelId,"date":date};
+        var expected = {"id":3,"message":"Test Message","username":"charles","channelid":channelId,"date":date};
         slackService.createMessage(conn, message, userId, channelId, date).should.eventually.equal(JSON.stringify(expected)).notify(done);
     });
 
     it('given message id, retrieve that message from the database', function(done) {
         var messageId = 1;
-        var expected = {"id":1,"message":"Hi Swarup!","userid":1,"channelid":1,"date":"2016-08-11 14:45:00"};
+        var expected = {"id":1,"message":"Hi Swarup!","username":"shuvo","channelid":1,"date":"2016-08-11 14:45:00"};
         slackService.getMessageById(conn, messageId).should.eventually.equal(JSON.stringify(expected)).notify(done);
     });
 
